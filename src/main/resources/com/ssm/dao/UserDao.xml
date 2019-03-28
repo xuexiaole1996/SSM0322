@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.dao.UserDao">
+    <select id="login" resultType="User">
+        select
+        id,login_id as loginId,name,phone,password,sex,birthday,email,address,is_del as isDel
+        from
+        user where login_id=#{loginId}
+    </select>
+
+    <select id="list" resultType="User">
+        select
+        id,login_id as loginId,name,phone,password,sex,birthday,email,address,is_del as isDel
+        from
+        user order by is_del DESC
+    </select>
+
+    <insert id="add" parameterType="User">
+        insert into
+        user(login_id,name,phone,password,sex,birthday,address,email,is_del)
+        values(#{loginId},#{name},#{phone},#{password},#{sex},#{birthday},#{address},#{email},1)
+    </insert>
+    <update id="del" parameterType="DelChose">
+        update user
+        set is_del=
+        <if test="flag==1">0</if>
+        <if test="flag==0">1</if>
+        where id=#{id}
+    </update>
+    <update id="upd" parameterType="User">
+        update user
+        set name=#{name},phone=#{phone},password=#{password},sex=#{sex},birthday=#{birthday},address=#{address},email=#{email}
+        where login_id=#{loginId}
+    </update>
+</mapper>
